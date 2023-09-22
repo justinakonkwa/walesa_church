@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>804181808087-n8acmoo7dajcp5k317di6t484ridn4na.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.804181808087-n8acmoo7dajcp5k317di6t484ridn4na</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDgYj58bOseDtiU4RF2Kx3r5MZg3-CExpQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>804181808087</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.walesa</string>
+	<key>PROJECT_ID</key>
+	<string>walesa-5f34e</string>
+	<key>STORAGE_BUCKET</key>
+	<string>walesa-5f34e.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:804181808087:ios:e2260e6956347521103192</string>
+</dict>
+</plist>
