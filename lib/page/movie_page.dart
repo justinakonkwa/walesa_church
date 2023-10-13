@@ -831,6 +831,7 @@ class _VideoPageState extends State<VideoPage> with WidgetsBindingObserver {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Theme.of(context).focusColor,
           shape: RoundedRectangleBorder(borderRadius: borderRadius),
           contentPadding: const EdgeInsets.only(
             top: 20,
@@ -841,7 +842,7 @@ class _VideoPageState extends State<VideoPage> with WidgetsBindingObserver {
           title: Center(
             child: AppTextLarge(
               text: "A propos de l'application",
-              color: AppColors.simpleFondColor2,
+              color: Theme.of(context).hintColor,
               size: 16,
             ),
           ),
@@ -849,7 +850,7 @@ class _VideoPageState extends State<VideoPage> with WidgetsBindingObserver {
             text:
                 'Le pasteur Kabundi Walesa a appelé les chrétiens de son église, en particulier et la population congolaise en général, à soutenir spirituellement le chef de l’État Félix Antoine Tshisekedi Tshilombo pour la réussite de son mandat en cours',
             size: 14,
-            color: AppColors.simpleFondColor2,
+            color: Theme.of(context).hintColor,
           ),
         );
       },
@@ -861,7 +862,7 @@ class _VideoPageState extends State<VideoPage> with WidgetsBindingObserver {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).focusColor,
           insetPadding: const EdgeInsets.only(
             left: 20,
             right: 20,
@@ -872,27 +873,35 @@ class _VideoPageState extends State<VideoPage> with WidgetsBindingObserver {
                 child: AppTextLarge(
                   text: 'Contacts :',
                   size: 16,
-                  color: Theme.of(context).disabledColor,
+                  color: Theme.of(context).hintColor,
                 ),
               ),
               sizedbox,
               AppText(
-                text: 'pacomecuma2.0@gmail.com',
-                color: Theme.of(context).cardColor,
+                text: 'nganduflory9@gmail.com',
+                color: Theme.of(context).hintColor,
               ),
               AppText(
-                text: '+243 972 876 858',
-                color: Theme.of(context).cardColor,
+                text: '+243 826 671 449',
+                color: Theme.of(context).hintColor,
               ),
-              sizedbox,
-              AppText(
-                text: 'justinakonwa0@gmail.com',
-                color: Theme.of(context).cardColor,
-              ),
-              AppText(
-                text: '+243 975 024 769',
-                color: Theme.of(context).cardColor,
-              ),
+              // AppText(
+              //   text: 'pacomecuma2.0@gmail.com',
+              //   color: Theme.of(context).cardColor,
+              // ),
+              // AppText(
+              //   text: '+243 972 876 858',
+              //   color: Theme.of(context).cardColor,
+              // ),
+              // sizedbox,
+              // AppText(
+              //   text: 'justinakonwa0@gmail.com',
+              //   color: Theme.of(context).cardColor,
+              // ),
+              // AppText(
+              //   text: '+243 975 024 769',
+              //   color: Theme.of(context).cardColor,
+              // ),
             ],
           ),
           shape: RoundedRectangleBorder(borderRadius: borderRadius),

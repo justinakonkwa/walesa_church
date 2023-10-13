@@ -36,10 +36,11 @@ class _LivePageState extends State<LivePage> {
   String titre = '';
   bool isVideos = false;
 
-
   Future<void> _scrapeYouTube() async {
     setState(() {
-      isLoading = true;
+      if (mounted) {
+        isLoading = true;
+      }
     });
     try {
       final videoResponse = await http.get(Uri.parse(
@@ -71,20 +72,24 @@ class _LivePageState extends State<LivePage> {
           ),
         );
         setState(() {
-          isLoading = false;
+          isLoading = true;
           titre;
           isLive = true;
         });
         // view();
       } else {
         setState(() {
-          isLoading = false;
+          if (mounted) {
+            isLoading = false;
+          }
         });
       }
     } catch (e) {
       setState(() {
-        isLoading = false;
-        isError = true;
+        if (mounted) {
+          isLoading = false;
+          isError = true;
+        }
       });
       // ignore: avoid_print
       print(e);
@@ -94,7 +99,7 @@ class _LivePageState extends State<LivePage> {
   String? getBannerAdUnitId() {
     // if (Platform.isIOS) {
     //   return 'ca-app-pub-2698138965577450/3425404109';
-    // } else 
+    // } else
     if (Platform.isAndroid) {
       return 'ca-app-pub-2698138965577450/9484643471';
     }
@@ -112,6 +117,10 @@ class _LivePageState extends State<LivePage> {
       isVideos = true;
     }
     super.initState();
+  }
+
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -211,7 +220,8 @@ class _LivePageState extends State<LivePage> {
                                                     )
                                                   ],
                                                 )
-                                              : const  Icon(Icons.cached_outlined,
+                                              : const Icon(
+                                                  Icons.cached_outlined,
                                                   color: AppColors.mainColor,
                                                 ),
                                         ),
@@ -351,7 +361,6 @@ class _LivePageState extends State<LivePage> {
                                               width: 40,
                                               decoration: const BoxDecoration(
                                                 shape: BoxShape.circle,
-                                                
                                                 color: Color(0x8D000000),
                                               ),
                                               child: const Icon(

@@ -29,6 +29,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     // } else
     if (Platform.isAndroid) {
       return 'ca-app-pub-2698138965577450/9484643471';
+      
     }
     return null;
   }
@@ -49,6 +50,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   @override
   void dispose() {
+    _controller.pause();
     _controller.dispose();
     super.dispose();
   }
@@ -83,8 +85,15 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                             top: 0.050 * MediaQuery.of(context).size.width,
                             right: 0.88 * MediaQuery.of(context).size.width,
                             child: GestureDetector(
-                              onTap: () =>
-                                  Navigator.pushNamed(context, '/home'),
+                              onTap: () => Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomePage(
+                                    currentIndex: 0,
+                                  ),
+                                ),
+                                (route) => false,
+                              ),
                               child: const Icon(
                                 Icons.arrow_back_ios,
                                 color: AppColors.activColor,
@@ -122,28 +131,29 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                                       Stack(
                                         children: [
                                           Flex(
-                                             direction: Axis.horizontal,
-                                            children:[SizedBox(
-                                              height: 100,
-                                              width: MediaQuery.of(contex)
-                                                      .size
-                                                      .width *
-                                                  0.35,
-                                              child: Container(
-                                                margin:
-                                                    const EdgeInsets.all(
-                                                        8.0),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.grey[300],
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        videoItems[index]
-                                                            .imageUrl),
-                                                    fit: BoxFit.cover,
+                                              direction: Axis.horizontal,
+                                              children: [
+                                                SizedBox(
+                                                  height: 100,
+                                                  width: MediaQuery.of(contex)
+                                                          .size
+                                                          .width *
+                                                      0.35,
+                                                  child: Container(
+                                                    margin:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.grey[300],
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
+                                                            videoItems[index]
+                                                                .imageUrl),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ),
                                               ]),
                                           Positioned(
                                             top: 0.08 *
