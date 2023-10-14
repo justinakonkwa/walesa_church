@@ -2,9 +2,7 @@
 
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:in_app_update/in_app_update.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:walesa/page/home_page.dart';
 import 'package:walesa/page/live_page.dart';
 import 'package:walesa/provider/dark_theme_provider.dart';
@@ -28,69 +26,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
- AppUpdateInfo? _updateInfo;
-
-final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-
-bool _flexibleUpdateAvailable = false;
-
-// Platform messages are asynchronous, so we initialize in an async method.
-Future<void> checkForUpdate() async {
-  InAppUpdate.checkForUpdate().then((info) {
-    setState(() {
-      _updateInfo = info;
-      if (_updateInfo?.updateAvailability == UpdateAvailability.updateAvailable) {
-        showUpdateDialog(context);
-      }
-    });
-  }).catchError((e) {
-    showSnack(e.toString());
-  });
-}
-
-void showSnack(String text) {
-  if (_scaffoldKey.currentContext != null) {
-    ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(SnackBar(content: Text(text)));
-  }
-}
-
-void showUpdateDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Update Available'),
-        content: const SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Text('A new update is available. Do you want to update?'),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          ElevatedButton(
-            child: const Text('Accept'),
-            onPressed: () {
-              Navigator.of(context).pop(); // Fermer la boîte de dialogue
-              if (_updateInfo?.updateAvailability == UpdateAvailability.updateAvailable) {
-                InAppUpdate.performImmediateUpdate().catchError((e) {
-                  showSnack(e.toString());
-                });
-              }
-            },
-          ),
-          ElevatedButton(
-            child: const Text('Cancel'),
-            onPressed: () {
-              Navigator.of(context).pop(); // Fermer la boîte de dialogue
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
-
   DarkThemeProvider themeChandeProvider = DarkThemeProvider();
 
   void getCurrentAppTheme() async {
@@ -100,7 +35,6 @@ void showUpdateDialog(BuildContext context) {
 
   @override
   void initState() {
-    checkForUpdate();
     getCurrentAppTheme();
     super.initState();
   }
@@ -117,7 +51,7 @@ void showUpdateDialog(BuildContext context) {
         builder: (context, themeData, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Eklezia',
+            title: 'walesa',
             theme: Styles.themeData(themeChandeProvider.darkTheme, context),
             initialRoute: '/',
             routes: {

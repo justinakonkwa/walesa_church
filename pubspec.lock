@@ -248,14 +248,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.17"
-  in_app_update:
-    dependency: "direct main"
-    description:
-      name: in_app_update
-      sha256: "102249a7e45e3050e4bc1b236cfc8de116b27d805ba78c3c276e73f3fffbaebc"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.2.1"
   js:
     dependency: transitive
     description:
@@ -312,6 +304,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  new_version_plus:
+    dependency: "direct main"
+    description:
+      name: new_version_plus
+      sha256: e0d8027223488cc7f7c78f6ff286f1b5d9808f88814aecfa0bb12254d25f48ca
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.11"
   nm:
     dependency: transitive
     description:
@@ -320,6 +320,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.0"
+  package_info_plus:
+    dependency: transitive
+    description:
+      name: package_info_plus
+      sha256: "6ff267fcd9d48cb61c8df74a82680e8b82e940231bb5f68356672fde0397334a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.0"
+  package_info_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: package_info_plus_platform_interface
+      sha256: "9bc8ba46813a4cc42c66ab781470711781940780fd8beddd0c3da62506d3a6c6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   path:
     dependency: transitive
     description:

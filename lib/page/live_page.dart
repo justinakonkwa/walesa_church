@@ -97,9 +97,9 @@ class _LivePageState extends State<LivePage> {
   }
 
   String? getBannerAdUnitId() {
-    // if (Platform.isIOS) {
-    //   return 'ca-app-pub-2698138965577450/3425404109';
-    // } else
+    if (Platform.isIOS) {
+      return 'ca-app-pub-2698138965577450/3425404109';
+    } else
     if (Platform.isAndroid) {
       return 'ca-app-pub-2698138965577450/9484643471';
     }

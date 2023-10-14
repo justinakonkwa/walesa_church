@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:new_version_plus/new_version_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:walesa/page/home_page.dart';
 import 'package:walesa/play.dart';
@@ -37,6 +38,13 @@ class _VideoPageState extends State<VideoPage> with WidgetsBindingObserver {
     super.initState();
 
     checkInternetConnectivity();
+    final newVersion = NewVersionPlus(
+      iOSId: 'com.disney.disneyplus',
+      androidId: 'com.communaute.walesa',
+      androidPlayStoreCountry: null,
+    );
+
+    advancedStatusCheck(newVersion);
     if (VideoData.loadedVideos.isEmpty) {
       fetchVideos().then((videos) {
         if (mounted) {
@@ -59,6 +67,28 @@ class _VideoPageState extends State<VideoPage> with WidgetsBindingObserver {
         videoItems = VideoData.loadedVideos;
         isLoading = false;
       });
+    }
+  }
+  advancedStatusCheck(NewVersionPlus newVersion) async {
+    final status = await newVersion.getVersionStatus();
+    if (status != null) {
+      // debugPrint(status.releaseNotes);
+      // debugPrint(status.appStoreLink);
+      debugPrint(status.localVersion);
+      debugPrint(status.storeVersion);
+      // debugPrint(status.canUpdate.toString());
+      newVersion.showUpdateDialog(
+        context: context,
+        versionStatus: status,
+        updateButtonText: "Installer",
+        dismissButtonText: "Plus tard",
+        dialogTitle: 'Mise à jour disponible',
+
+        dialogText:
+        "Nous sommes ravis de vous présenter la version ${status.localVersion} de notre application, qui apporte de nombreuses améliorations et fonctionnalités par rapport à la version précédente (version ${status.storeVersion})",
+        launchModeVersion: LaunchModeVersion.external,
+        allowDismissal: true,
+      );
     }
   }
 
