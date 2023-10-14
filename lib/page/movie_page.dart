@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:new_version_plus/new_version_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:store_redirect/store_redirect.dart';
 import 'package:walesa/page/home_page.dart';
 import 'package:walesa/play.dart';
 import 'package:walesa/widgets/app_text.dart';
@@ -437,7 +438,13 @@ class _VideoPageState extends State<VideoPage> with WidgetsBindingObserver {
                                             child: Column(
                                               children: [
                                                 ElevatedButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    // donner les avis
+                                                    StoreRedirect.redirect(
+                                                      androidAppId: 'com.communaute.walesa',
+                                                      iOSAppId: 'com.communaute.walesa',
+                                                    );
+                                                  },
                                                   style: ButtonStyle(
                                                     elevation:
                                                         MaterialStateProperty
