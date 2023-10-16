@@ -99,9 +99,8 @@ class _LivePageState extends State<LivePage> {
   String? getBannerAdUnitId() {
     if (Platform.isIOS) {
       return 'ca-app-pub-2698138965577450/3425404109';
-    } else
-    if (Platform.isAndroid) {
-      return 'ca-app-pub-2698138965577450/9484643471';
+    } else if (Platform.isAndroid) {
+      return 'ca-app-pub-2698138965577450/3866180785';
     }
     return null;
   }
@@ -274,7 +273,7 @@ class _LivePageState extends State<LivePage> {
                                   top: 10, left: 10, right: 10),
                               child: Container(
                                 padding: const EdgeInsets.only(
-                                    left: 10, top: 10, right: 10, bottom: 10),
+                                    left: 10, top: 10, right: 20, bottom: 10),
                                 height: 100,
                                 decoration: BoxDecoration(
                                   borderRadius: borderRadius,
@@ -288,109 +287,91 @@ class _LivePageState extends State<LivePage> {
                                   // ],
                                 ),
                                 child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    InkWell(
-                                      child: Builder(builder: (context) {
-                                        return Stack(
-                                          alignment: Alignment.center,
-                                          children: [
-                                            Image.network(
-                                              _videos2[index].image,
-                                              width: 100,
-                                              height: 80,
-                                              fit: BoxFit.cover,
-                                              frameBuilder: (_, image,
-                                                  loadingBuilder, __) {
-                                                if (loadingBuilder == null) {
-                                                  return const SizedBox(
-                                                    width: 100,
-                                                    child: Center(
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        valueColor:
-                                                            AlwaysStoppedAnimation<
-                                                                Color>(
-                                                          AppColors.activColor,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                }
-                                                return image;
-                                              },
-                                              loadingBuilder:
-                                                  (BuildContext context,
-                                                      Widget image,
-                                                      ImageChunkEvent?
-                                                          loadingProgress) {
-                                                if (loadingProgress == null) {
-                                                  return image;
-                                                }
-                                                return SizedBox(
-                                                  width: 100,
-                                                  child: Center(
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      value: loadingProgress
-                                                                  .expectedTotalBytes !=
-                                                              null
-                                                          ? loadingProgress
-                                                                  .cumulativeBytesLoaded /
-                                                              loadingProgress
-                                                                  .expectedTotalBytes!
-                                                          : null,
-                                                    ),
-                                                  ),
+                                    Builder(builder: (context) {
+                                      return InkWell(
+                                        onTap: () async {
+                                          setState(() {
+                                            Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                                return HomePage(
+                                                  currentIndex: 1,
+                                                  videoUrl: _videos2[index].url,
+                                                  videoTitre:
+                                                      _videos2[index].title,
                                                 );
-                                              },
-                                              errorBuilder: (context, e, ___) =>
-                                                  Center(
+                                              }),
+                                              (route) => false,
+                                            );
+                                          });
+                                        },
+                                        child: Image.network(
+                                          _videos2[index].image,
+                                          width: 100,
+                                          height: 80,
+                                          fit: BoxFit.cover,
+                                          frameBuilder:
+                                              (_, image, loadingBuilder, __) {
+                                            if (loadingBuilder == null) {
+                                              return const SizedBox(
+                                                width: 100,
                                                 child: Center(
-                                                  child: Icon(
-                                                    Icons.report_problem,
-                                                    size: 35,
-                                                    color: Theme.of(context)
-                                                        .hintColor,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation<
+                                                            Color>(
+                                                      AppColors.activColor,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ),
-                                            Container(
-                                              height: 40,
-                                              width: 40,
-                                              decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Color(0x8D000000),
-                                              ),
-                                              child: const Icon(
-                                                Icons.play_arrow,
-                                                color: AppColors.mainColor,
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      }),
-                                      onTap: () async {
-                                        setState(() {
-                                          Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                              return HomePage(
-                                                currentIndex: 1,
-                                                videoUrl: _videos2[index].url,
-                                                videoTitre:
-                                                    _videos2[index].title,
                                               );
-                                            }),
-                                            (route) => false,
-                                          );
-                                        });
-
-                                        // view();
-                                      },
-                                    ),
+                                            }
+                                            return image;
+                                          },
+                                          loadingBuilder: (BuildContext context,
+                                              Widget image,
+                                              ImageChunkEvent?
+                                                  loadingProgress) {
+                                            if (loadingProgress == null) {
+                                              return image;
+                                            }
+                                            return SizedBox(
+                                              width: 100,
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  value: loadingProgress
+                                                              .expectedTotalBytes !=
+                                                          null
+                                                      ? loadingProgress
+                                                              .cumulativeBytesLoaded /
+                                                          loadingProgress
+                                                              .expectedTotalBytes!
+                                                      : null,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          errorBuilder: (context, e, ___) =>
+                                              Center(
+                                            child: Center(
+                                              child: Icon(
+                                                Icons.report_problem,
+                                                size: 35,
+                                                color:
+                                                    Theme.of(context).hintColor,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -442,6 +423,37 @@ class _LivePageState extends State<LivePage> {
                                           ),
                                         ),
                                       ],
+                                    ),
+                                    InkWell(
+                                      onTap: () async {
+                                        setState(() {
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                              return HomePage(
+                                                currentIndex: 1,
+                                                videoUrl: _videos2[index].url,
+                                                videoTitre:
+                                                    _videos2[index].title,
+                                              );
+                                            }),
+                                            (route) => false,
+                                          );
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Color(0x8D000000),
+                                        ),
+                                        child: const Icon(
+                                          Icons.play_arrow,
+                                          color: AppColors.mainColor,
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),

@@ -70,6 +70,7 @@ class _VideoPageState extends State<VideoPage> with WidgetsBindingObserver {
       });
     }
   }
+
   advancedStatusCheck(NewVersionPlus newVersion) async {
     final status = await newVersion.getVersionStatus();
     if (status != null) {
@@ -78,18 +79,19 @@ class _VideoPageState extends State<VideoPage> with WidgetsBindingObserver {
       debugPrint(status.localVersion);
       debugPrint(status.storeVersion);
       // debugPrint(status.canUpdate.toString());
-      newVersion.showUpdateDialog(
-        context: context,
-        versionStatus: status,
-        updateButtonText: "Installer",
-        dismissButtonText: "Plus tard",
-        dialogTitle: 'Mise à jour disponible',
-
-        dialogText:
-        "Nous sommes ravis de vous présenter la version ${status.localVersion} de notre application, qui apporte de nombreuses améliorations et fonctionnalités par rapport à la version précédente (version ${status.storeVersion})",
-        launchModeVersion: LaunchModeVersion.external,
-        allowDismissal: true,
-      );
+      if (status.localVersion != status.storeVersion) {
+        newVersion.showUpdateDialog(
+          context: context,
+          versionStatus: status,
+          updateButtonText: "Installer",
+          dismissButtonText: "Plus tard",
+          dialogTitle: 'Mise à jour disponible',
+          dialogText:
+              "Nous sommes ravis de vous présenter la version ${status.localVersion} de notre application, qui apporte de nombreuses améliorations et fonctionnalités par rapport à la version précédente (version ${status.storeVersion})",
+          launchModeVersion: LaunchModeVersion.external,
+          allowDismissal: true,
+        );
+      }
     }
   }
 
@@ -98,38 +100,45 @@ class _VideoPageState extends State<VideoPage> with WidgetsBindingObserver {
     var channelId = 'UC39gOLqu1MFXJfCw-SRwGJQ';
     var maxResults = 50;
 
-    var apiUrl =
-        'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=$channelId&maxResults=$maxResults&key=$apiKey';
+    var apiUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=$channelId&maxResults=$maxResults&key=$apiKey';
+var response = await http.get(Uri.parse(apiUrl));
 
-    var response = await http.get(Uri.parse(apiUrl));
+if (response.statusCode == 200) {
+  var data = jsonDecode(response.body);
+  var videosData = data['items'];
 
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      var videosData = data['items'];
+  // Trier les vidéos par date en utilisant la clé 'publishedAt'
+  videosData.sort((a, b) => DateTime.parse(b['snippet']['publishedAt'])
+      .compareTo(DateTime.parse(a['snippet']['publishedAt'])));
 
-      // Trier les vidéos par date en utilisant la clé 'publishedAt'
-      videosData.sort((a, b) => DateTime.parse(b['snippet']['publishedAt'])
-          .compareTo(DateTime.parse(a['snippet']['publishedAt'])));
+  var videoItems = videosData
+      .take(30) // Sélectionner les 20 premières vidéos
+      .map<VideoItem>((video) => VideoItem(
+        videoId: video['id']['videoId'] ?? '',
+        imageUrl: video['snippet']['thumbnails']['high']['url'] ?? '',
+        videoLink: 'https://www.youtube.com/watch?v=${video['id']['videoId']}',
+        title: video['snippet']['title'] ?? '',
+        uploadDate: video['snippet']['publishedAt'] ?? '',
+      ))
+      .toList();
 
-      var videoItems = videosData
-          .take(20) // Sélectionner les 10 premières vidéos
-          .map<VideoItem>((video) => VideoItem(
-                videoId: video['id']['videoId'] ?? '',
-                imageUrl: video['snippet']['thumbnails']['high']['url'] ?? '',
-                videoLink:
-                    'https://www.youtube.com/watch?v=${video['id']['videoId']}',
-                title: video['snippet']['title'] ?? '',
-                uploadDate: video['snippet']['publishedAt'] ?? '',
-              ))
-          .toList();
+  // Afficher les 20 dernières publications de manière ordonnée
+  for (var i = 0; i < videoItems.length; i++) {
+    var video = videoItems[i];
 
-      // Enregistrer les vidéos chargées pour une utilisation ultérieure
-      VideoData.loadedVideos = videoItems;
+    print('Titre : ${video.title}');
+    print('Date de publication : ${video.uploadDate}');
+    print('Lien de la vidéo : ${video.videoLink}');
+    print('-----------------------');
+  }
 
-      return videoItems;
-    } else {
-      throw Exception('Failed to fetch videos');
-    }
+  // Enregistrer les vidéos chargées pour une utilisation ultérieure
+  VideoData.loadedVideos = videoItems;
+
+  return videoItems;
+} else {
+  throw Exception('Failed to fetch videos');
+}
   }
   // Future<List<VideoItem>> fetchVideos() async {
   //   var apiKey = 'AIzaSyD-P2V-r6OOqqG1XE7BkyQyhIoa1JP5sDo';
@@ -441,8 +450,10 @@ class _VideoPageState extends State<VideoPage> with WidgetsBindingObserver {
                                                   onPressed: () {
                                                     // donner les avis
                                                     StoreRedirect.redirect(
-                                                      androidAppId: 'com.communaute.walesa',
-                                                      iOSAppId: 'com.communaute.walesa',
+                                                      androidAppId:
+                                                          'com.communaute.walesa',
+                                                      iOSAppId:
+                                                          'com.communaute.walesa',
                                                     );
                                                   },
                                                   style: ButtonStyle(

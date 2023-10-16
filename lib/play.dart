@@ -24,12 +24,10 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   late YoutubePlayerController _controller;
 
   String? getBannerAdUnitId() {
-    // if (Platform.isIOS) {
-    //   return 'ca-app-pub-2698138965577450/3425404109';
-    // } else
-    if (Platform.isAndroid) {
-      return 'ca-app-pub-2698138965577450/9484643471';
-      
+    if (Platform.isIOS) {
+      return 'ca-app-pub-2698138965577450/3425404109';
+    } else if (Platform.isAndroid) {
+      return 'ca-app-pub-2698138965577450/3866180785';
     }
     return null;
   }
@@ -107,10 +105,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                       Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: AppText(
-                          text: widget.videoTitre[0].toUpperCase() +
-                              widget.videoTitre.substring(1).toLowerCase(),
-                          color: Theme.of(context).disabledColor,
-                        ),
+                            text: widget.videoTitre[0].toUpperCase() +
+                                widget.videoTitre.substring(1).toLowerCase(),
+                            color: Theme.of(context).cardColor),
                       ),
                       Lign(
                         indent: MediaQuery.of(context).size.width * 0.15,
@@ -127,44 +124,13 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Stack(
-                                        children: [
-                                          Flex(
-                                              direction: Axis.horizontal,
-                                              children: [
-                                                SizedBox(
-                                                  height: 100,
-                                                  width: MediaQuery.of(contex)
-                                                          .size
-                                                          .width *
-                                                      0.35,
-                                                  child: Container(
-                                                    margin:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.grey[300],
-                                                      image: DecorationImage(
-                                                        image: NetworkImage(
-                                                            videoItems[index]
-                                                                .imageUrl),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ]),
-                                          Positioned(
-                                            top: 0.08 *
-                                                MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                            right: 0.16 *
-                                                MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                            child: GestureDetector(
+                                      Flex(
+                                          direction: Axis.horizontal,
+                                          children: [
+                                            InkWell(
                                               onTap: () async {
                                                 setState(() {
                                                   Navigator.pushAndRemoveUntil(
@@ -184,31 +150,33 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                                                   );
                                                 });
                                               },
-                                              child: Container(
-                                                height: 30,
-                                                width: 30,
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color:
-                                                          AppColors.activColor,
+                                              child: SizedBox(
+                                                height: 100,
+                                                width: MediaQuery.of(contex)
+                                                        .size
+                                                        .width *
+                                                    0.35,
+                                                child: Container(
+                                                  margin:
+                                                      const EdgeInsets.all(8.0),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey[300],
+                                                    image: DecorationImage(
+                                                      image: NetworkImage(
+                                                          videoItems[index]
+                                                              .imageUrl),
+                                                      fit: BoxFit.cover,
                                                     ),
-                                                    shape: BoxShape.circle,
-                                                    color: Colors.transparent),
-                                                child: const Icon(
-                                                  Icons.play_arrow,
-                                                  size: 20,
-                                                  color: AppColors.activColor,
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
+                                          ]),
                                       SizedBox(
                                         height: 80.0,
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.5,
+                                                0.4,
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -222,6 +190,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                                               child: Text(
                                                 videoItems[index].title,
                                                 style: const TextStyle(),
+                                                overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
                                               ),
                                             ),
@@ -229,13 +198,53 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                                               alignment: Alignment.bottomRight,
                                               child: AppText(
                                                 text: videoItems[index]
-                                                    .uploadDate,
+                                                    .uploadDate
+                                                    .substring(
+                                                        0,
+                                                        videoItems[index]
+                                                                .uploadDate
+                                                                .length -
+                                                            4),
                                                 color: Theme.of(context)
                                                     .focusColor,
                                                 size: 12,
                                               ),
                                             ),
                                           ],
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () async {
+                                          setState(() {
+                                            Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                                return VideoPlayerPage(
+                                                  videoLink:
+                                                      videoItems[index].videoId,
+                                                  videoTitre:
+                                                      videoItems[index].title,
+                                                );
+                                              }),
+                                              (route) => false,
+                                            );
+                                          });
+                                        },
+                                        child: Container(
+                                          height: 30,
+                                          width: 30,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: AppColors.activColor,
+                                              ),
+                                              shape: BoxShape.circle,
+                                              color: Colors.transparent),
+                                          child: const Icon(
+                                            Icons.play_arrow,
+                                            size: 25,
+                                            color: AppColors.activColor,
+                                          ),
                                         ),
                                       ),
                                     ],
